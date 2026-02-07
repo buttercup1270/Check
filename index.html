@@ -163,7 +163,7 @@
             justify-content: center;
             gap: 20px;
             position: relative;
-            height: 100px;
+            height: 120px;
             width: 100%;
             margin-top: 20px;
             align-items: center;
@@ -306,9 +306,9 @@
 
         setInterval(createHeart, 200); // More frequent hearts
 
-        // 2. "NO" BUTTON EVASION LOGIC (Constrained to Card)
-        function moveButton() {
-            // Parenting check to ensure stability
+        // 2. "NO" BUTTON EVASION LOGIC
+        function moveButton(e) {
+            // Move button within the card for both desktop and mobile
             if (noBtn.parentElement !== card) {
                 card.appendChild(noBtn);
             }
@@ -328,15 +328,20 @@
             noBtn.style.top = randomY + 'px';
             noBtn.style.margin = '0';
             noBtn.style.zIndex = '100';
-
-            // Add a little shake effect when it moves
             noBtn.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         }
 
-        noBtn.addEventListener('mouseover', moveButton);
+        // Desktop - hover
+        noBtn.addEventListener('mouseenter', moveButton);
+        
+        // Mobile - touch
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
+            moveButton(e);
         });
 
         // 3. SUCCESS CELEBRATION
